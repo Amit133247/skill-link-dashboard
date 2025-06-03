@@ -9,7 +9,104 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      import_jobs: {
+        Row: {
+          created_at: string | null
+          id: string
+          records_count: number | null
+          source: Database["public"]["Enums"]["skill_source"]
+          start_time: string | null
+          status: Database["public"]["Enums"]["job_status"] | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          records_count?: number | null
+          source: Database["public"]["Enums"]["skill_source"]
+          start_time?: string | null
+          status?: Database["public"]["Enums"]["job_status"] | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          records_count?: number | null
+          source?: Database["public"]["Enums"]["skill_source"]
+          start_time?: string | null
+          status?: Database["public"]["Enums"]["job_status"] | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      internal_skills: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      skills: {
+        Row: {
+          created_at: string | null
+          id: string
+          mapped_to: string | null
+          name: string
+          source: Database["public"]["Enums"]["skill_source"]
+          status: Database["public"]["Enums"]["skill_status"] | null
+          suggested_matches: string[] | null
+          updated_at: string | null
+          user_count: number | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          mapped_to?: string | null
+          name: string
+          source: Database["public"]["Enums"]["skill_source"]
+          status?: Database["public"]["Enums"]["skill_status"] | null
+          suggested_matches?: string[] | null
+          updated_at?: string | null
+          user_count?: number | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          mapped_to?: string | null
+          name?: string
+          source?: Database["public"]["Enums"]["skill_source"]
+          status?: Database["public"]["Enums"]["skill_status"] | null
+          suggested_matches?: string[] | null
+          updated_at?: string | null
+          user_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skills_mapped_to_fkey"
+            columns: ["mapped_to"]
+            isOneToOne: false
+            referencedRelation: "internal_skills"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +115,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      job_status: "In Progress" | "Completed" | "Failed"
+      skill_source: "Degreed" | "Eightfold" | "Blend"
+      skill_status: "unmapped" | "mapped" | "needs_review"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +232,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      job_status: ["In Progress", "Completed", "Failed"],
+      skill_source: ["Degreed", "Eightfold", "Blend"],
+      skill_status: ["unmapped", "mapped", "needs_review"],
+    },
   },
 } as const
