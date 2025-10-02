@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { Database } from '@/integrations/supabase/types';
 
 export const useSkillsData = () => {
   const [skills, setSkills] = useState<any[]>([]);
@@ -69,7 +70,7 @@ export const useSkillsData = () => {
     }
   };
 
-  const updateSkillMapping = async (skillId: string, mappedToId: string | null, status: string) => {
+  const updateSkillMapping = async (skillId: string, mappedToId: string | null, status: Database["public"]["Enums"]["skill_status"]) => {
     try {
       const { error } = await supabase
         .from('skills')
